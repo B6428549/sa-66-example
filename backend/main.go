@@ -2,15 +2,15 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/tanapon395/sa-66-example/controller"
-	"github.com/tanapon395/sa-66-example/entity"
+	"github.com/B6428549/sa-66-example/controller"
+	"github.com/B6428549/sa-66-example/entity"
 )
 
 func main() {
 	entity.SetupDatabase()
 	r := gin.Default()
 	r.Use(CORSMiddleware())
-	// User Routes
+	// hotel Routes
 	r.GET("/users", controller.ListUsers)
 	r.GET("/user/:id", controller.GetUser)
 	r.POST("/users", controller.CreateUser)
@@ -18,7 +18,23 @@ func main() {
 	r.DELETE("/users/:id", controller.DeleteUser)
 	// Gender Routes
 	r.GET("/genders", controller.ListGenders)
+	r.GET("/hotels", controller.ListHotels)
+	// r.GET("/hotel/:id", controller.GetHotel)
+	r.POST("/hotels", controller.CreateHotel)
+	r.GET("/hotel/:id", controller.GetHotel)
+	r.PATCH("/hotels", controller.UpdateHotel)
+	// r.PATCH("/hotels", controller.UpdateHotel)
+	r.DELETE("/hotels/:id", controller.DeleteHotel)
+	// Gender Routes
+	r.GET("/hoteltypes", controller.ListHoteltypes)
 	// Run the server
+	r.GET("/roomtypes", controller.ListRoomtypes)
+	// // Run the server
+	r.GET("/room/:id", controller.GetRoom)
+	r.GET("/rooms", controller.ListRooms)
+	r.POST("/rooms", controller.CreateRoom)
+	// Run the server
+
 	r.Run()
 }
 

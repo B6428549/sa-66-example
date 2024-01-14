@@ -1,4 +1,5 @@
 import { GendersInterface } from "./IGender";
+import { HoteltypesInterface } from "./IHoteltype";
 
 export interface UsersInterface {
   ID?: number;
@@ -9,4 +10,6 @@ export interface UsersInterface {
   GenderID?: number;
   Gender?: GendersInterface;
   Profile?: string;
+  HoteltypeID?: number;
+  Hoteltype?: HoteltypesInterface;
 }

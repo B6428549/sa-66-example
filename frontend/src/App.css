@@ -36,3 +36,21 @@
     transform: rotate(360deg);
   }
 }
+
+
+.dropdown {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid gray;
+}
+
+.dropdown:empty{
+  border: none;
+}
+
+.dropdown-row {
+  cursor: pointer;
+  text-align: center;
+  margin: 2px 0;
+}

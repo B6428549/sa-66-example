@@ -16,8 +16,9 @@ import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
 import { UsersInterface } from "../../../interfaces/IUser";
 import { GendersInterface } from "../../../interfaces/IGender";
 import { ImageUpload } from "../../../interfaces/IUpload";
-import { CreateUser, GetGenders } from "../../../services/https";
+import { CreateUser, GetGenders, GetHoteltypes } from "../../../services/https";
 import { useNavigate } from "react-router-dom";
+import { HoteltypesInterface } from "../../../interfaces/IHoteltype";
 
 const { Option } = Select;
 
@@ -26,6 +27,7 @@ function CustomerCreate() {
   const [messageApi, contextHolder] = message.useMessage();
   const [genders, setGenders] = useState<GendersInterface[]>([]);
   const [profile, setProfile] = useState<ImageUpload>()
+  const [hoteltypes, setHoteltypes] = useState<HoteltypesInterface[]>([]);
 
   const onFinish = async (values: UsersInterface) => {
     values.Profile = profile?.thumbUrl;
@@ -65,6 +67,17 @@ function CustomerCreate() {
     return e?.fileList;
   };
 
+  const getHoteltypes = async () => {
+    let res = await GetHoteltypes();
+    if (res) {
+      setHoteltypes(res);
+    }
+  };
+
+  useEffect(() => {
+    getHoteltypes();
+  }, []);
+
   return (
     <div>
       {contextHolder}
@@ -79,6 +92,19 @@ function CustomerCreate() {
         >
           <Row gutter={[16, 16]}>
             <Col xs={24} sm={24} md={24} lg={24} xl={12}>
+            <Form.Item
+                name="HoteltypeID"
+                label="ประเภท"
+                rules={[{ required: true, message: "กรุณาระบุเพศ !" }]}
+              >
+                <Select allowClear>
+                  {hoteltypes.map((item) => (
+                    <Option value={item.ID} key={item.Name}>
+                      {item.Name}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
               <Form.Item
                 label="ชื่อจริง"
                 name="FirstName"

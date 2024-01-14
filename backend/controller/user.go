@@ -4,14 +4,14 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/tanapon395/sa-66-example/entity"
+	"github.com/B6428549/sa-66-example/entity"
 )
 
 // POST /users
 func CreateUser(c *gin.Context) {
 	var user entity.User
 	var gender entity.Gender
-
+	var hoteltype entity.Hoteltype
 	// bind เข้าตัวแปร user
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -24,6 +24,11 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
+	if tx := entity.DB().Where("id = ?", user.HoteltypeID).First(&hoteltype); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "gender not found"})
+		return
+	}
+
 	// สร้าง User
 	u := entity.User{
 		Gender:    gender,         // โยงความสัมพันธ์กับ Entity Gender
@@ -32,6 +37,7 @@ func CreateUser(c *gin.Context) {
 		Email:     user.Email,     // ตั้งค่าฟิลด์ Email
 		Phone:     user.Phone,     // ตั้งค่าฟิลด์ Phone
 		Profile:   user.Profile,   // ตั้งค่าฟิลด์ Profile
+		Hoteltype: hoteltype,
 	}
 
 	// บันทึก
@@ -47,7 +53,7 @@ func CreateUser(c *gin.Context) {
 func GetUser(c *gin.Context) {
 	var user entity.User
 	id := c.Param("id")
-	if err := entity.DB().Preload("Gender").Raw("SELECT * FROM users WHERE id = ?", id).Find(&user).Error; err != nil {
+	if err := entity.DB().Preload("Gender").Preload("Hoteltype").Raw("SELECT * FROM users WHERE id = ?", id).Find(&user).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -57,7 +63,7 @@ func GetUser(c *gin.Context) {
 // GET /users
 func ListUsers(c *gin.Context) {
 	var users []entity.User
-	if err := entity.DB().Preload("Gender").Raw("SELECT * FROM users").Find(&users).Error; err != nil {
+	if err := entity.DB().Preload("Gender").Preload("Hoteltype").Raw("SELECT * FROM users").Find(&users).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

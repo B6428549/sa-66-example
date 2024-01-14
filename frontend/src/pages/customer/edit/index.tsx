@@ -15,20 +15,21 @@ import {
 import { PlusOutlined } from "@ant-design/icons";
 import { UsersInterface } from "../../../interfaces/IUser";
 import { GendersInterface } from "../../../interfaces/IGender";
-import { CreateUser, GetGenders, GetUserById, UpdateUser } from "../../../services/https";
+import { CreateUser, GetGenders, GetUserById, UpdateUser ,GetHoteltypes} from "../../../services/https";
 import { useNavigate, useParams } from "react-router-dom";
+import { HoteltypesInterface } from "../../../interfaces/IHoteltype";
 
 const { Option } = Select;
 
 function CustomerEdit() {
   const navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
-
+  const [hoteltypes, setHoteltypes] = useState<HoteltypesInterface[]>([]);
   const [user, setUser] = useState<UsersInterface>();
   const [genders, setGenders] = useState<GendersInterface[]>([]);
 
   // รับข้อมูลจาก params
-  let { id } = useParams();
+  let { id } = useParams(); 
   // อ้างอิง form กรอกข้อมูล
   const [form] = Form.useForm();
 
@@ -51,6 +52,13 @@ function CustomerEdit() {
     }
   };
 
+  const getHoteltypes = async () => {
+    let res = await GetHoteltypes();
+    if (res) {
+      setHoteltypes(res);
+    }
+  };
+
   const getGendet = async () => {
     let res = await GetGenders();
     if (res) {
@@ -67,6 +75,7 @@ function CustomerEdit() {
         FirstName: res.FirstName ,
         LastName : res.LastName ,
         GenderID: res.GenderID,
+        HoteltypeID: res.HoteltypeID,
         Email: res.Email,
         Phone: res.Phone,
     });
@@ -76,6 +85,7 @@ function CustomerEdit() {
   useEffect(() => {
     getGendet();
     getUserById();
+    getHoteltypes();
   }, []);
 
   return (
@@ -93,6 +103,19 @@ function CustomerEdit() {
         >
           <Row gutter={[16, 16]}>
             <Col xs={24} sm={24} md={24} lg={24} xl={12}>
+            <Form.Item
+                name="HoteltypeID"
+                label="ประเภท"
+                rules={[{ required: true, message: "กรุณาระบุเพศ !" }]}
+              >
+                <Select allowClear>
+                  {hoteltypes.map((item) => (
+                    <Option value={item.ID} key={item.Name}>
+                      {item.Name}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
               <Form.Item
                 label="ชื่อจริง"
                 name="FirstName"
