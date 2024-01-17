@@ -8,6 +8,14 @@ import { HotelsInterface } from "../../../interfaces/IHotel";
 import { HoteltypesInterface } from "../../../interfaces/IHoteltype";
 import { Link } from "react-router-dom";
 import bg from "../../../assets/bg.png"
+import SliderCarousel from "../../../components/sliderpage";
+import pic1 from '../../../assets/showcase1.jpg';
+import pic2 from '../../../assets/showcase2.jpg';
+import pic3 from '../../../assets/showcase3.jpg';
+import pic4 from '../../../assets/showcase4.jpg';
+import pic5 from '../../../assets/showcase5.jpg';
+import pic6 from '../../../assets/showcase6.jpg';
+import pic7 from '../../../assets/showcase7.jpg';
 const { Option } = Select;
 const { TextArea } = Input;
 const { Text } = Typography;
@@ -125,7 +133,7 @@ function Category() {
   }));
 
   const divStyle: React.CSSProperties = {
-    background: `url(${bg})`,
+    background: `url(${pic3})`,
     backgroundSize: 'cover',
     width: "84.2vw",
     height: "20vh",
@@ -145,6 +153,7 @@ function Category() {
   const inputRef = React.useRef(null);
   return (
     <div>
+     <SliderCarousel/>
       <div style={divStyle}>
         <form>
           <Input
@@ -189,6 +198,7 @@ function Category() {
           </div>
 
       </div>
+     
 
       <Row gutter={[16, 16]}>
         <Col xs={24} sm={24} md={24} lg={24} xl={6}>
