@@ -20,7 +20,7 @@ func CreateBookhotel(c *gin.Context) {
 	
 	// ค้นหา gender ด้วย id
 	if tx := entity.DB().Where("id = ?", bookhotel.RoomID).First(&Room); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "hotel not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "room not found"})
 		return
 	}
 

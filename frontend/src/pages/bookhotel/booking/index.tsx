@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Avatar, Button, Card, Col, DatePicker, Form, Input, List, Row, Space, TimePicker, Typography,message,} from "antd";
-import { CreateBookhotel, GetBookhotelById, GetRoomById, GetRooms, GetRoomtypes } from "../../../services/https";
+import { CreateBookhotel, GetBookhotelById, GetHotelById, GetRoomById, GetRooms, GetRoomtypes } from "../../../services/https";
 import { RoomsInterface } from "../../../interfaces/IRoom";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { RoomtypesInterface } from "../../../interfaces/IRoomtype";
 import { BookHotelsInterface } from "../../../interfaces/IBookhotel";
+import { HotelsInterface } from "../../../interfaces/IHotel";
 
 const { Text } = Typography;
 
 function BookingHotel() {
   const [rooms, setRooms] = useState<RoomsInterface[]>([]);
   const [roomtypes, setRoomtypes] = useState<RoomtypesInterface[]>([]);
-  const [bookhotel, setBookhotels] = useState<BookHotelsInterface[]>([]);
+  const [hotel, setHotel] = useState<HotelsInterface[]>([]);
   const navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
   // Get room ID from URL parameters
@@ -49,6 +50,24 @@ function BookingHotel() {
     getRoomById();
   }, [id]);
 
+  // // Fetch hotel details based on the provided ID
+  // const getHotelById = async () => {
+  //   try {
+  //     const hotelId = rooms.length > 0 ? rooms[0].HotelID : null;
+  //     if (hotelId) {
+  //       const res = await GetHotelById(hotelId);
+  //       if (res) {
+  //         setHotel(res);
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching hotel details:", error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   getHotelById();
+  // }, [rooms]);
 
   // Filter rooms based on hotel ID
   const filteredRooms = rooms.filter((room) => room.ID === Number(id));
@@ -149,16 +168,14 @@ function BookingHotel() {
           >
             <Input />
           </Form.Item>
-         
-             
-                <Form.Item label="วันนัดหมาย" className="tabdate" name="Datie">
+          <Form.Item label="วันนัดหมาย"  name="DateIn">
                   <DatePicker
                     name="DateIn"
                     // Pass the formatted time string from Go
                     format={dateFormat}
                   />
                 </Form.Item>
-                <Form.Item className="tabdate" name="Time">
+                <Form.Item  name="DateOut">
                   <DatePicker
                     name="DateOut"
                     style={{ marginLeft: "10px" }}
@@ -166,6 +183,8 @@ function BookingHotel() {
                     //defaultValue={moment()} // Set the default time to the current time
                   />
                 </Form.Item>
+             
+              
       
            
 
@@ -194,3 +213,4 @@ function BookingHotel() {
 }
 
 export default BookingHotel;
+

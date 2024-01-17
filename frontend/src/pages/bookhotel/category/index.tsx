@@ -1,32 +1,13 @@
 import React, { useState, useEffect } from "react";
-import SearchRooms from '../../../components/searh'
+import SearchRooms from '../../../components/searh';
 import "../../../App.css";
-import {
-  Space,
-  Avatar,
-  List,
-  Slider,
-  Select,
-  Card,
-  Input,
-  Image,
-  Typography,
-  Button,
-  Rate,
-  Divider,
-} from "antd";
-import {
-  LikeOutlined,
-  MessageOutlined,
-  StarOutlined,
-  UploadOutlined,
-  EnvironmentFilled,
-} from "@ant-design/icons";
+import { Space, Card, Input, Button, Rate, Slider, Select, List, Image, Typography, Col, Row, InputNumber } from "antd";
+import { EnvironmentFilled } from "@ant-design/icons";
 import { GetHotels, GetHoteltypes } from "../../../services/https";
 import { HotelsInterface } from "../../../interfaces/IHotel";
-import { Link } from "react-router-dom";
 import { HoteltypesInterface } from "../../../interfaces/IHoteltype";
-
+import { Link } from "react-router-dom";
+import bg from "../../../assets/bg.png"
 const { Option } = Select;
 const { TextArea } = Input;
 const { Text } = Typography;
@@ -34,12 +15,16 @@ const { Text } = Typography;
 function Category() {
   const [hotels, setHotels] = useState<HotelsInterface[]>([]);
   const [hoteltypes, setHoteltypes] = useState<HoteltypesInterface[]>([]);
-  const [selectedHotel, setSelectedHotel] = useState<string | undefined>();
   const [filteredHotels, setFilteredHotels] = useState<HotelsInterface[]>([]);
   const [value, setValue] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedDropdownItem, setSelectedDropdownItem] = useState<string>('');
-
+  const [priceRange, setPriceRange] = useState<number[]>([0, 9000]);
+  const [selectedHotelType, setSelectedHotelType] = useState<number | undefined>();
+  const [selectedHotelclass, setSelectedHotelclass] = useState<number | undefined>();
+  const [selectedHotelclassLevel, setSelectedHotelclassLevel] = useState<number | undefined>();
+  const [propertyNameSearchTerm, setPropertyNameSearchTerm] = useState<string>('');
+  const [guestSearchTerm, setGuestSearchTerm] = useState<number | undefined>();
   const getHoteltypes = async () => {
     let res = await GetHoteltypes();
     if (res) {
@@ -54,17 +39,21 @@ function Category() {
   const getHotels = async () => {
     let res = await GetHotels();
     if (res) {
-      setHotels(res);
+      // Filter hotels based on the selected price range, hotel type ID, and hotelclass level
+      const filtered = res.filter((hotel: { Price: number; HoteltypeID: number; Hotelclass: number }) => 
+        hotel.Price >= priceRange[0] &&
+        hotel.Price <= priceRange[1] &&
+        (!selectedHotelType || hotel.HoteltypeID === selectedHotelType) &&
+        (!selectedHotelclass || hotel.Hotelclass === selectedHotelclass) &&
+        (!selectedHotelclassLevel || hotel.Hotelclass === selectedHotelclassLevel)
+      );
+      setHotels(filtered);
     }
   };
 
   useEffect(() => {
     getHotels();
-  }, []);
-
-  const handleHotelSelect = (value: string) => {
-    setSelectedHotel(value);
-  };
+  }, [priceRange, selectedHotelType, selectedHotelclass, selectedHotelclassLevel]);
 
   const handleRateChange = (value: number) => {
     console.log(`Rating: ${value}`);
@@ -74,101 +63,191 @@ function Category() {
     const inputValue = event.target.value;
     setValue(inputValue);
 
-    // ตรวจสอบว่ามีการกรอกข้อมูลหรือไม่เพื่อกำหนดการแสดง dropdown
     setShowDropdown(inputValue.trim().length > 0);
   };
 
   const onSearch = (searchTerm: string) => {
     setValue(searchTerm);
 
-    // Filter hotels based on the entered destination
     const filteredData = hotels.filter((hotel) => {
       const location = hotel?.Location?.toLowerCase() || "";
       return location.includes(searchTerm.toLowerCase());
     });
 
-    // Set the filtered hotels
     setFilteredHotels(filteredData);
 
-    // ตั้งค่า selectedDropdownItem เมื่อมีการค้นหา
-    setShowDropdown(false); // ซ่อน dropdown เมื่อเลือกรายการ
+    setShowDropdown(false);
     setSelectedDropdownItem(searchTerm);
   };
 
+  const handleSliderChange = (value: number[]) => {
+    setPriceRange(value);
+  };
+
+  const onPropertyNameSearch = (searchTerm: string) => {
+    setPropertyNameSearchTerm(searchTerm);
+
+    const filteredData = hotels.filter((hotel) => {
+      const hotelName = hotel?.Name?.toLowerCase() || "";
+      return hotelName.includes(searchTerm.toLowerCase());
+    });
+
+    setFilteredHotels(filteredData);
+
+    setShowDropdown(false);
+    setSelectedDropdownItem(searchTerm);
+  };
+
+  const onGuestSearch = (value: number | null) => {
+    // Use 'undefined' if the value is null
+    const guestValue = value !== null ? value : undefined;
+    setGuestSearchTerm(guestValue);
+  
+    const filteredData = hotels.filter((hotel) => {
+      return hotel?.Guest === guestValue;
+    });
+  
+    setFilteredHotels(filteredData);
+  
+    setShowDropdown(false);
+    setSelectedDropdownItem(guestValue !== undefined ? guestValue.toString() : '');
+  };
+  
   const data = (filteredHotels.length > 0 ? filteredHotels : hotels).map((hotel) => ({
     title: hotel.Name,
     description: hotel.Description,
     profile: hotel.Profile,
-    price: hotel.NumberofRoom,
+    price: hotel.Price,
     location: hotel.Location,
     hotelclass: hotel.Hotelclass,
     id: hotel.ID,
     type: hotel.Hoteltype
   }));
 
+  const divStyle: React.CSSProperties = {
+    background: `url(${bg})`,
+    backgroundSize: 'cover',
+    width: "84.2vw",
+    height: "20vh",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center", // Adjust as needed
+    alignItems: "center",
+  };
+  
+  const inputStyle: React.CSSProperties = {
+    width: "250px",
+    height: "45px",
+    margin: "0 50px", // Add margin for spacing
+    
+  };
 
-
-
+  const inputRef = React.useRef(null);
   return (
     <div>
-      
-      <form>
-        <Input
-          type="text"
-          name="search"
-          className="search"
-          value={value}
-          onChange={onChange}
-          style={{ width: "250px", marginLeft: "100px", height: "45px" }}
-          placeholder="Destination"
-        />
-        <Button type="primary" onClick={() => onSearch(value)}>
-          Search
-        </Button>
-        {showDropdown && (
-          <div className="dropdown">
-            {hotels
-              .filter((item) => {
-                const searchTerm: string = value ? value.toLowerCase() : '';
-                const itemName: string | undefined = item.Location?.toLowerCase();
-                return itemName && itemName.startsWith(searchTerm) && itemName !== searchTerm;
-              })
-              .map((item) => (
-                <div onClick={() => onSearch(item.Location || '')} key={item.Location} className="dropdown-row">
-                  {item.Location}
-                </div>
-              ))}
+      <div style={divStyle}>
+        <form>
+          <Input
+            type="text"
+            name="search"
+            className="search"
+            value={value}
+            onChange={onChange}
+            style={{width: "250px",
+            height: "45px"}}
+            placeholder="Destination"
+            ref={inputRef} // Add ref to the Input element
+          />
+          {showDropdown && (
+            <div className="dropdown">
+              {hotels
+                .filter((item) => {
+                  const searchTerm: string = value ? value.toLowerCase() : '';
+                  const itemName: string | undefined = item.Location?.toLowerCase();
+                  return itemName && itemName.startsWith(searchTerm) && itemName !== searchTerm;
+                })
+                .map((item) => (
+                  <div onClick={() => onSearch(item.Location || '')} key={item.Location} className="dropdown-row">
+                    {item.Location}
+                  </div>
+                ))}
+            </div>
+          )}
+         
+        
+        </form>
+          <InputNumber type="text" style={inputStyle} 
+          placeholder="Guest"
+      value={guestSearchTerm}
+      onChange={(value) => onGuestSearch(value)}
+    />
+      <div style={{marginLeft: "0px"}}>
+          <Button type="primary" onClick={() => onSearch(value)} style={{width: "250px",
+            height: "45px"}}>
+            Search
+          </Button>
           </div>
-        )}
-      </form>
-      <Input
-        style={{ width: "250px", marginLeft: "100px", height: "45px" }}
-        placeholder="Guest"
-      />
-      <Select
-        allowClear
-        style={{ width: "250px", marginLeft: "100px", height: "45px" }}
-        placeholder="Type"
-        onChange={handleHotelSelect}
-      >
-        {hoteltypes.map((hoteltypes) => (
-          <Option key={hoteltypes.ID} value={hoteltypes.ID}>
-            {hoteltypes.Name}
-          </Option>
-        ))}
-      </Select>
 
-      <Slider
-        defaultValue={0}
-        style={{ width: '500px', marginLeft: '100px', height: '45px' }}
-        step={1000}
-        min={1000}
-        max={9000}
+      </div>
+
+      <Row gutter={[16, 16]}>
+        <Col xs={24} sm={24} md={24} lg={24} xl={6}>
+          <Card>
+          <h2>Search by property name</h2>
+          <Input
+              value={propertyNameSearchTerm}
+              onChange={(e) => onPropertyNameSearch(e.target.value)}
+            />
+ 
+
    
-      />
+            <h2>Price (THB)</h2>
+            <Slider
+              range
+              defaultValue={priceRange}
+              style={{ width: '300px', height: '45px' }}
+              step={1000}
+              min={0}
+              max={9000}
+              onChange={handleSliderChange}
+            />
 
+            
+<h2>Property Types</h2>
+            <Select
+              allowClear
+              style={{ width: "250px", height: "45px" }}
+              placeholder="Type"
+              onChange={(value) => setSelectedHotelType(value)}
+            >
+              {hoteltypes.map((item) => (
+                <Option value={item.ID} key={item.ID}>
+                  {item.Name}
+                </Option>
+              ))}
+            </Select>
 
-      <Card>
+            <h2>Hotel Class</h2>
+
+            <Select
+              allowClear
+              style={{ width: "250px", height: "45px" }}
+              placeholder="Class Level"
+              onChange={(value) => setSelectedHotelclassLevel(value)}
+            >
+              {[1, 2, 3, 4, 5].map((level) => (
+                <Option value={level} key={level}>
+                  {level}
+                </Option>
+              ))}
+            </Select>
+
+          </Card>
+
+        </Col>
+
+      <Col xs={24} sm={24} md={24} lg={24} xl={18}>
+     
         <List
           dataSource={data}
           grid={{ gutter: 16, column: 1 }}
@@ -178,7 +257,7 @@ function Category() {
                 <Space
                   direction="horizontal"
                   style={{
-                    marginLeft: '50px',
+                    marginLeft: '0px',
                     textAlign: 'left',
                   }}
                 >
@@ -214,7 +293,7 @@ function Category() {
                       textAlign: 'left',
                       marginTop: '-25px',
                     }}>
-                      <Rate disabled defaultValue={Number(item.hotelclass)} />
+                     <Rate disabled defaultValue={Number(item.hotelclass)} value={Number(item.hotelclass)} />
                     </div>
                   </div>
                   <p style={{
@@ -270,7 +349,9 @@ function Category() {
             </List.Item>
           )}
         />
-      </Card>
+    
+      </Col>
+      </Row>
     </div>
   );
 }

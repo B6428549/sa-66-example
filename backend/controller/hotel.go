@@ -29,7 +29,7 @@ func CreateHotel(c *gin.Context) {
 		Hoteltype: hoteltype,
 		Name: hotel.Name, // ตั้งค่าฟิลด์ Name
 		Location: hotel.Location,
-		NumberofRoom: hotel.NumberofRoom,
+		Price: hotel.Price,
 		Profile: hotel.Profile,	
 		Guest: hotel.Guest,
 		Description: hotel.Description,
@@ -71,6 +71,7 @@ func GetHotel(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": hotel})
 }
 
+
 // DELETE /users/:id
 func DeleteHotel(c *gin.Context) {
 	id := c.Param("id")
@@ -98,7 +99,7 @@ func UpdateHotel(c *gin.Context) {
 	// Update only specific fields
 	existingHotel.Name = input.Name
 	existingHotel.Location = input.Location
-	existingHotel.NumberofRoom = input.NumberofRoom
+	existingHotel.Price = input.Price
 	existingHotel.Guest = input.Guest
 	existingHotel.Description = input.Description
 	existingHotel.Hotelclass = input.Hotelclass

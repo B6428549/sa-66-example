@@ -39,17 +39,17 @@ type Hotel struct {
 	Name  string
     Location string
 	Profile   string `gorm:"type:longtext"`
-	Hotelclass string
-	NumberofRoom string
+	Hotelclass int
+	Price int
 	Description string
-	Guest string
+	Guest int
 	
 
 	
     HoteltypeID  *uint // or *uint based on requirements
     Hoteltype    Hoteltype `gorm:"foreignKey:HoteltypeID"`
 
-	// Room []Room `gorm:"foreignKey:HotelID"`
+	Room []Room `gorm:"foreignKey:HotelID"`
 	// clear
 }
 

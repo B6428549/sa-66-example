@@ -42,28 +42,34 @@ function ShowRecord() {
       key: "phone",
     },
     {
-      title: "วันที่นัด",
-      dataIndex: "Datie", // Assuming this field contains a date
-      key: "daties",
+      title: "วันที่นัดเข้า",
+      dataIndex: "DateIn",
+      key: "datein",
       render: (date) => {
-        const dater = dayjs(date).format("DD/MM/YYYY");
-        return dater;
+        const formattedDate = dayjs(date).format("DD/MM/YYYY");
+        return formattedDate;
       },
     },
     {
-      title: "วันที่นัด",
-      dataIndex: "Datie", // Assuming this field contains a date
-      key: "daties",
+      title: "วันที่นัดออก",
+      dataIndex: "DateOut",
+      key: "dateOut",
       render: (date) => {
-        const dater = dayjs(date).format("DD/MM/YYYY");
-        return dater;
+        const formattedDate = dayjs(date).format("DD/MM/YYYY");
+        return formattedDate;
       },
     },
     {
-      title: "ชื่อ-นามสกุล",
+      title: "RoomID",
       dataIndex: "RoomID",
       key: "id",
       // render: (item) => Object.values(item.FirstName + " " + item.LastName),
+    },
+    {
+      title: "รายการ",
+      dataIndex: "Room",
+      key: "hotel",
+      render: (room) => room.Name,
     },
 
     {

@@ -2,16 +2,17 @@ import { HoteltypesInterface } from "./IHoteltype";
 
 
 export interface HotelsInterface {
+  
   ID?: number;
   Name?: string;
   Location?: string;
-  Hotelclass?: string;
+  Hotelclass?: number;
   Description?: string;
   HoteltypeID?: number;
   Hoteltype?: HoteltypesInterface;
   Profile?: string;
-  Guest?: string;
-  NumberofRoom?: string;
+  Guest?: number;
+  Price?: number;
   
  
 }

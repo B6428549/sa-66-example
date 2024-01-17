@@ -54,23 +54,20 @@ function Detail() {
   // Fetch hotel details based on the provided ID
   const getHotelById = async () => {
     try {
+      console.log("Hotel ID:", id); // Log hotel_id here
       let res = await GetHotelById(Number(id));
       if (res) {
-        if (Array.isArray(res)) {
-          setHotels(res);
-        } else {
-          setHotels([res]);
-        }
+        setHotels([res]);
       }
     } catch (error) {
       console.error("Error fetching hotel details:", error);
       // Handle error appropriately
     }
   };
-
+  
   useEffect(() => {
     getHotelById();
-  }, [id]);
+  }, []);
 
   // Filter rooms based on hotel ID
   const filteredRooms = rooms.filter((room) => room.HotelID === Number(id));
@@ -90,7 +87,7 @@ function Detail() {
     title: hotel.Name,
     description: hotel.Description,
     profile: hotel.Profile,
-    price: hotel.NumberofRoom,
+    price: hotel.Price,
     location: hotel.Location,
     hotelclass: hotel.Hotelclass,
     id: hotel.ID,

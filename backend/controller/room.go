@@ -66,7 +66,7 @@ func CreateRoom(c *gin.Context) {
 func GetRoom(c *gin.Context) {
 	var room entity.Room
 	id := c.Param("id")
-	if err := entity.DB().Preload("Roomtype").Raw("SELECT * FROM hotels WHERE id = ?", id).Find(&room).Error; err != nil {
+	if err := entity.DB().Preload("Roomtype").Preload("Hotel").Raw("SELECT * FROM rooms WHERE id = ?", id).Find(&room).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

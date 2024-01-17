@@ -13,6 +13,7 @@ import {
   Select,
   Steps,
   theme,
+  InputNumber,
 } from "antd";
 import { PlusOutlined, MinusOutlined ,FrownOutlined ,MehOutlined, StarOutlined } from "@ant-design/icons";
 import { HoteltypesInterface } from "../../../interfaces/IHoteltype";
@@ -126,7 +127,7 @@ function HotelCreate() {
                     },
                   ]}
                 >
-                  <Input />
+                  <InputNumber />
                 </Form.Item>
               </Col>
               <Form.Item
@@ -155,15 +156,15 @@ function HotelCreate() {
   name="Hotelclass"
   rules={[{ required: true, message: 'Please input Field 1!' }]}
 >
-<Input />
+<InputNumber />
 
 </Form.Item>
 <Form.Item
             label="ราคาต่อคืน"
-            name="NumberofRoom"
+            name="Price"
             rules={[{ required: true, message: 'Please input Field 1!' }]}
           >
-            <Input />
+            <InputNumber />
           </Form.Item>
 
             <Form.Item
