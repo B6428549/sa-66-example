@@ -23,6 +23,7 @@ import HotelEdit from "./pages/hotel/edit";
 import Category from "./pages/bookhotel/category";
 import Detail from "./pages/bookhotel/detail";
 import BookingHotel from "./pages/bookhotel/booking";
+import ShowRecord from "./pages/bookhotel";
 const { Header, Content, Footer, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>["items"][number];
@@ -129,6 +130,7 @@ const App: React.FC = () => {
                 <Route path="/hotel/create" element={<HotelCreate />} />
                 <Route path="/category" element={<Category />} />
                 <Route path="/hotel/detail/:id/room/:id" element={<BookingHotel />} />
+                <Route path="/showrecord" element={<ShowRecord />} />
               </Routes>
             </div>
           </Content>

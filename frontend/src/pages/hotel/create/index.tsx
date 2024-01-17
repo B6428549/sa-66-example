@@ -20,10 +20,6 @@ import { ImageUpload } from "../../../interfaces/IUpload";
 import { CreateHotel, GetHoteltypes, GetRoomtypes } from "../../../services/https";
 import { useNavigate } from "react-router-dom";
 import { RoomtypesInterface } from "../../../interfaces/IRoomtype";
-import { Rate } from 'antd';
-import Rating from "../../../components/rating"
-import Category from "../../bookhotel/category";
-import { Console } from "console";
 import { HotelsInterface } from "../../../interfaces/IHotel";
 
 const { Option } = Select;
@@ -34,19 +30,10 @@ function HotelCreate() {
   const [hoteltypes, setHoteltypes] = useState<HoteltypesInterface[]>([]);
   const [roomtypes, setRoomtypes] = useState<RoomtypesInterface[]>([]);
   const [profile, setProfile] = useState<ImageUpload>();
-  const [hotel, setHotel] = useState<HotelsInterface[]>([]);
   const navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
 
-  const { token } = theme.useToken();
 
-  const next = () => {
-    setCurrent(current + 1);
-  };
-
-  const prev = () => {
-    setCurrent(current - 1);
-  };
 
   const onFinish = async (values: HotelsInterface) => {
     values.Profile = profile?.thumbUrl;

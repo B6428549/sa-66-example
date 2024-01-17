@@ -1,6 +1,7 @@
 package entity
 
 import (
+	"time"
 	"gorm.io/gorm"
 )
 
@@ -64,7 +65,10 @@ type Room struct {
 
 	HotelID *uint
 	Hotel  Hotel `gorm:"references:id"`
+
 	// clear
+
+	Bookhotel []Bookhotel `gorm:"foreignKey:RoomID"`
 
 }
 
@@ -74,4 +78,21 @@ type Roomtype struct {
 
 	Room []Room `gorm:"foreignKey:RoomtypeID"`
 	// clear
+}
+
+
+type Bookhotel struct {
+	gorm.Model
+	DateIn  time.Time
+	DateOut time.Time
+	Name string
+	Phone string
+	Email string
+
+
+	// UserID *uint
+	// User   User `gorm:"foreignKey:UserID"`
+
+	RoomID *uint
+	Room   Room `gorm:"references:id"`
 }

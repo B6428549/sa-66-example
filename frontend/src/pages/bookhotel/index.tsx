@@ -2,26 +2,29 @@ import React, { useState, useEffect } from "react";
 import { Space, Table, Button, Col, Row, Divider, Modal, message } from "antd";
 import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
-import { GetHotels, DeleteHotelByID } from "../../services/https";
-import { HotelsInterface } from "../../interfaces/IHotel";
+import { GetUsers, DeleteUserByID, GetBookhotels } from "../../services/https";
+import { BookHotelsInterface } from "../../interfaces/IBookhotel";
 import { Link, useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
 
 
-
-function Customers() {
-  const columns: ColumnsType<HotelsInterface> = [
+function ShowRecord() {
+    const [books, setBookhotels] = useState<BookHotelsInterface[]>([]);
+    const getBookHotels = async () => {
+        let res = await GetBookhotels();
+        if (res) {
+          setBookhotels(res);
+        }
+      };
+    
+      useEffect(() => {
+        getBookHotels();
+      }, []);
+  const columns: ColumnsType<BookHotelsInterface> = [
     {
       title: "ลำดับ",
       dataIndex: "ID",
       key: "id",
-    },
-    {
-      title: "รูปประจำตัว",
-      dataIndex: "Profile",
-      key: "profile",
-      render: (text, record, index) => (
-        <img src={record.Profile} className="w3-left w3-circle w3-margin-right" width="50%" />
-      )
     },
     {
       title: "ชื่อ",
@@ -29,18 +32,47 @@ function Customers() {
       key: "name",
     },
     {
+      title: "อีเมล",
+      dataIndex: "Email",
+      key: "email",
+    },
+    {
+      title: "เบอร์โทร",
+      dataIndex: "Phone",
+      key: "phone",
+    },
+    {
+      title: "วันที่นัด",
+      dataIndex: "Datie", // Assuming this field contains a date
+      key: "daties",
+      render: (date) => {
+        const dater = dayjs(date).format("DD/MM/YYYY");
+        return dater;
+      },
+    },
+    {
+      title: "วันที่นัด",
+      dataIndex: "Datie", // Assuming this field contains a date
+      key: "daties",
+      render: (date) => {
+        const dater = dayjs(date).format("DD/MM/YYYY");
+        return dater;
+      },
+    },
+    {
+      title: "ชื่อ-นามสกุล",
+      dataIndex: "RoomID",
+      key: "id",
+      // render: (item) => Object.values(item.FirstName + " " + item.LastName),
+    },
+
+    {
       title: "จัดการ",
       dataIndex: "Manage",
       key: "manage",
       render: (text, record, index) => (
         <>
-          <Button
-  onClick={() => navigate(`/hotel/addroom/${record.ID}`)}
-  shape="circle"
-  icon={<PlusOutlined />}
-  size={"large"}
-/>
-          <Button  onClick={() =>  navigate(`/hotel/edit/${record.ID}`)} shape="circle" icon={<EditOutlined />} size={"large"} />
+          <Button  onClick={() =>  navigate(`/customer/edit/${record.ID}`)} shape="circle" icon={<EditOutlined />} size={"large"} />
           <Button
             onClick={() => showModal(record)}
             style={{ marginLeft: 10 }}
@@ -56,7 +88,7 @@ function Customers() {
 
   const navigate = useNavigate();
 
-  const [users, setUsers] = useState<HotelsInterface[]>([]);
+  const [users, setUsers] = useState<BookHotelsInterface[]>([]);
 
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -67,15 +99,15 @@ function Customers() {
   const [deleteId, setDeleteId] = useState<Number>();
 
   const getUsers = async () => {
-    let res = await GetHotels();
+    let res = await GetUsers();
     if (res) {
       setUsers(res);
     }
   };
 
-  const showModal = (val: HotelsInterface) => {
+  const showModal = (val: BookHotelsInterface) => {
     setModalText(
-      `คุณต้องการลบข้อมูลผู้ใช้ "${val.ID}" หรือไม่ ?`
+      `คุณต้องการลบข้อมูลผู้ใช้ "" หรือไม่ ?`
     );
     setDeleteId(val.ID);
     setOpen(true);
@@ -83,7 +115,7 @@ function Customers() {
 
   const handleOk = async () => {
     setConfirmLoading(true);
-    let res = await DeleteHotelByID(deleteId);
+    let res = await DeleteUserByID(deleteId);
     if (res) {
       setOpen(false);
       messageApi.open({
@@ -114,11 +146,11 @@ function Customers() {
       {contextHolder}
       <Row>
         <Col span={12}>
-          <h2>จัดการข้อมูลที่พัก</h2>
+          <h2>จัดการข้อมูลสมาชิก</h2>
         </Col>
         <Col span={12} style={{ textAlign: "end", alignSelf: "center" }}>
           <Space>
-            <Link to="/hotel/create">
+            <Link to="/customer/create">
               <Button type="primary" icon={<PlusOutlined />}>
                 สร้างข้อมูล
               </Button>
@@ -128,7 +160,7 @@ function Customers() {
       </Row>
       <Divider />
       <div style={{ marginTop: 20 }}>
-        <Table rowKey="ID" columns={columns} dataSource={users} />
+        <Table rowKey="ID" columns={columns} dataSource={books} />
       </div>
       <Modal
         title="ลบข้อมูล ?"
@@ -143,4 +175,4 @@ function Customers() {
   );
 }
 
-export default Customers;
+export default ShowRecord;

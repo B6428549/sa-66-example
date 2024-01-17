@@ -34,6 +34,9 @@ func main() {
 	r.GET("/rooms", controller.ListRooms)
 	r.POST("/rooms", controller.CreateRoom)
 	// Run the server
+	r.GET("/bookhotels", controller.ListBookhotels)
+	r.POST("/bookhotels", controller.CreateBookhotel)
+	r.GET("/bookhotel/:id", controller.GetBookhotel)
 
 	r.Run()
 }

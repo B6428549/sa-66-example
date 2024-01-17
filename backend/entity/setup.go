@@ -25,6 +25,7 @@ func SetupDatabase() {
 		&Hotel{},
 		&Room{},
 		&Roomtype{},
+		&Bookhotel{},
 	)
 
 	db = database

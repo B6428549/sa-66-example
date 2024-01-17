@@ -1,6 +1,7 @@
 import { UsersInterface } from "../../interfaces/IUser";
 import { HotelsInterface } from "../../interfaces/IHotel";
 import { RoomsInterface } from "../../interfaces/IRoom";
+import { BookHotelsInterface } from "../../interfaces/IBookhotel";
 
 const apiUrl = "http://localhost:8080";
 
@@ -325,6 +326,64 @@ async function GetRoomById(id: Number | undefined) {
   return res;
 }
 
+async function CreateBookhotel(data: BookHotelsInterface) {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/bookhotels`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return { status: true, message: res.data };
+      } else {
+        return { status: false, message: res.error };
+      }
+    });
+
+  return res;
+}
+
+async function GetBookhotels() {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/bookhotels`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
+async function GetBookhotelById(id: Number | undefined) {
+  const requestOptions = {
+    method: "GET"
+  };
+
+  let res = await fetch(`${apiUrl}/bookhotel/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
 export {
   GetUsers,
   CreateUser,
@@ -342,4 +401,7 @@ export {
   GetHotelById,
   UpdateHotel,
   GetRoomById,
+  CreateBookhotel,
+  GetBookhotels,
+  GetBookhotelById
 };
