@@ -2,8 +2,8 @@ import { RoomsInterface } from "./IRoom";
 
 export interface BookHotelsInterface {
     ID?: number; 
-    DateIn?: String;
-    DateOut?: String;
+    DateIn?: Date;
+    DateOut?: Date;
     Name?: string;
     Phone?: string;
     Email?: string;

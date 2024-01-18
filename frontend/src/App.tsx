@@ -123,13 +123,13 @@ const App: React.FC = () => {
                 <Route path="/customer" element={<Customer />} />
                 <Route path="/customer/create" element={<CustomerCreate />} />
                 <Route path="/customer/edit/:id" element={<CustomerEdit />} />
-                <Route path="/hotel/addroom/:id" element={<Addroom />} />
+                <Route path="/hotel/addroom/:id2" element={<Addroom />} />
                 <Route path="/hotel/edit/:id" element={<HotelEdit />} />
                 <Route path="/hotel/detail/:id" element={<Detail />} />
                 <Route path="/hotel" element={<Hotel />} />
                 <Route path="/hotel/create" element={<HotelCreate />} />
                 <Route path="/category" element={<Category />} />
-                <Route path="/hotel/detail/:id/room/:id" element={<BookingHotel />} />
+                <Route path="/hotel/detail/:id/room/:id2" element={<BookingHotel />} />
                 <Route path="/showrecord" element={<ShowRecord />} />
               </Routes>
             </div>

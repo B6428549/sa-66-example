@@ -12,10 +12,11 @@ const { Text } = Typography;
 function BookingHotel() {
   const [rooms, setRooms] = useState<RoomsInterface[]>([]);
   const [roomtypes, setRoomtypes] = useState<RoomtypesInterface[]>([]);
-  const [hotel, setHotel] = useState<HotelsInterface[]>([]);
+  const [hotel, setHotels] = useState<HotelsInterface[]>([]);
   const navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
   // Get room ID from URL parameters
+  let { id2 } = useParams();  
   let { id } = useParams();
 
 
@@ -32,7 +33,7 @@ function BookingHotel() {
 
   const getRoomById = async () => {
     try {
-      let res = await GetRoomById(Number(id));
+      let res = await GetRoomById(Number(id2));
       if (res) {
         if (Array.isArray(res)) {
           setRooms(res);
@@ -48,36 +49,38 @@ function BookingHotel() {
 
   useEffect(() => {
     getRoomById();
+  }, [id2]);
+
+  // Fetch hotel details based on the provided ID
+  const getHotelById = async () => {
+    try {
+      let res = await GetHotelById(Number(id));
+      if (res) {
+        if (Array.isArray(res)) {
+          setHotels(res);
+        } else {
+          setHotels([res]);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching hotel details:", error);
+      // Handle error appropriately
+    }
+  };
+  
+  useEffect(() => {
+    getHotelById();
   }, [id]);
 
-  // // Fetch hotel details based on the provided ID
-  // const getHotelById = async () => {
-  //   try {
-  //     const hotelId = rooms.length > 0 ? rooms[0].HotelID : null;
-  //     if (hotelId) {
-  //       const res = await GetHotelById(hotelId);
-  //       if (res) {
-  //         setHotel(res);
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching hotel details:", error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getHotelById();
-  // }, [rooms]);
-
   // Filter rooms based on hotel ID
-  const filteredRooms = rooms.filter((room) => room.ID === Number(id));
+  const filteredRooms = rooms.filter((room) => room.ID === Number(id2));
   const roomData = filteredRooms.map((room) => {
     const roomtype = roomtypes.find((rt) => rt.ID === room.RoomtypeID);
     return {
       title: roomtype?.Name || "", // Add a default value if roomtype is undefined
       profile: room.Profile,
       price: room.Price,
-      id: room.ID
+      id2: room.ID
     };
   });
 
@@ -85,7 +88,7 @@ function BookingHotel() {
   const onFinish = async (values: BookHotelsInterface) => {
     // ในกรณีนี้คุณต้องรอให้ getRoomById เสร็จก่อนที่จะทำ onFinish
     await getRoomById(); // นำไปใช้ที่จำเป็นต่อไป
-    console.log(id);
+    console.log(id2);
     // ตรวจสอบว่า rooms มีข้อมูลหรือไม่
     if (rooms.length > 0) {
       // ให้ค่า RoomID เป็น ID ของห้องแรกที่ได้จาก getRoomById
@@ -168,6 +171,8 @@ function BookingHotel() {
           >
             <Input />
           </Form.Item>
+
+          
           <Form.Item label="วันนัดหมาย"  name="DateIn">
                   <DatePicker
                     name="DateIn"
