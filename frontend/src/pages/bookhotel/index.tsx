@@ -66,10 +66,19 @@ function ShowRecord() {
       // render: (item) => Object.values(item.FirstName + " " + item.LastName),
     },
     {
-      title: "รายการ",
-      dataIndex: "Room",
-      key: "hotel",
-      render: (room) => room.Name,
+      title: "ชื่อ Hotel",
+      dataIndex: "Hotel",
+      key: "Name",
+      render: (item) => {
+        // ตรวจสอบว่า item.Name มีค่าหรือไม่
+        if (item && item.Name) {
+          // แสดงชื่อของโรงแรม
+          return item.Name;
+        } else {
+          // กรณีไม่พบข้อมูลหรือข้อมูลไม่ถูกต้อง
+          return "ไม่พบข้อมูล";
+        }
+      },
     },
 
     {

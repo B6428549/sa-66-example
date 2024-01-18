@@ -1,3 +1,4 @@
+import { HotelsInterface } from "./IHotel";
 import { RoomsInterface } from "./IRoom";
 
 export interface BookHotelsInterface {
@@ -9,4 +10,6 @@ export interface BookHotelsInterface {
     Email?: string;
     RoomID?: Number;
     Room?: RoomsInterface;
+    HotelID?: Number;
+    Hotel?: HotelsInterface;
 }

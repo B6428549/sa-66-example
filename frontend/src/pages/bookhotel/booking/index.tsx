@@ -93,6 +93,7 @@ function BookingHotel() {
     if (rooms.length > 0) {
       // ให้ค่า RoomID เป็น ID ของห้องแรกที่ได้จาก getRoomById
       values.RoomID = rooms[0].ID; // หรือเลือกห้องที่ต้องการได้ตามต้องการ
+      values.HotelID = hotel[0].ID;
       let res = await CreateBookhotel(values);
       if (res.status) {
         messageApi.open({
@@ -172,7 +173,7 @@ function BookingHotel() {
             <Input />
           </Form.Item>
 
-          
+
           <Form.Item label="วันนัดหมาย"  name="DateIn">
                   <DatePicker
                     name="DateIn"

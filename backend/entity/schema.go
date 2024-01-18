@@ -50,6 +50,9 @@ type Hotel struct {
     Hoteltype    Hoteltype `gorm:"foreignKey:HoteltypeID"`
 
 	Room []Room `gorm:"foreignKey:HotelID"`
+
+	
+	Bookhotel []Bookhotel `gorm:"foreignKey:HotelID"`
 	// clear
 }
 
@@ -95,4 +98,7 @@ type Bookhotel struct {
 
 	RoomID *uint
 	Room   Room `gorm:"references:id"`
+
+	HotelID *uint
+	Hotel   Hotel `gorm:"references:id"`
 }
