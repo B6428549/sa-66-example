@@ -54,6 +54,7 @@ function Addroom() {
 
   const onFinish = async (values: RoomsInterface) => {
     // values.ID = hotel?.ID;
+    values.HotelID = hotel[0].ID;
     values.Profile = profile?.thumbUrl;
     let res = await CreateRoom(values);
     if (res.status) {
@@ -71,17 +72,25 @@ function Addroom() {
       });
     }
   };
-  const getHotel = async () => {
-    let res = await GetHotels();
-    if (res) {
-      setHotel(res);
-      // set form ข้อมูลเริ่มของผู่้ใช้ที่เราแก้ไข
+  const getHotelById = async () => {
+    try {
+      let res = await GetHotelById(Number(id));
+      if (res) {
+        if (Array.isArray(res)) {
+          setHotel(res);
+        } else {
+          setHotel([res]);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching hotel details:", error);
+      // Handle error appropriately
     }
   };
-
+  
   useEffect(() => {
-    getHotel();
-  }, []);
+    getHotelById();
+  }, [id]);
 
 
 
@@ -97,18 +106,7 @@ function Addroom() {
   }, []);
 
 
-//   const getRoomById = async () => {
-//     let res = await GetRoomById(Number(id));
-//     if (res) {
-//       setRoom(res);
-//       // set form ข้อมูลเริ่มของผู่้ใช้ที่เราแก้ไข
-//     }
-//   };
 
-//   useEffect(() => {
- 
-//     getRoomById();
-//   }, []);
 
 
   const normFile = (e: any) => {
@@ -184,19 +182,7 @@ function Addroom() {
           >
             <Input />
           </Form.Item>
-          <Form.Item
-                name="HotelID"
-                label="โรงแรม"
-                rules={[{ required: true, message: "กรุณาระบุเพศ !" }]}
-              >
-                <Select allowClear>
-                  {hotel.map((item) => (
-                    <Option value={item.ID} key={item.Name}>
-                      {item.Name}
-                    </Option>
-                  ))}
-                </Select>
-              </Form.Item>
+         
           {/* <Form.Item
             label="ระดับดาว"
             name="Hotelclass"
