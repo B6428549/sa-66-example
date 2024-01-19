@@ -80,6 +80,8 @@ function Detail() {
       profile: room.Profile,
       price: room.Price,
       id: room.ID,
+      bed: room.Bed,
+      guest: room.Roomguest
     };
   });
 
@@ -200,16 +202,20 @@ function Detail() {
           dataSource={roomData}
           renderItem={(item) => (
             <List.Item>
-              <Card title={item.title}>
+              <Card title={item.title} hoverable>
                 <Space direction="horizontal">
                   <Image  style={{
       marginTop: '-70px',
 
     }}width={400}  src={item.profile} />
-        
-    
-                 
+        <Card>
+        <Space direction="horizontal">
+        <h2>bed {item.bed} beds</h2>
+        <h2>guest {item.guest} </h2>
+        </Space>
+        </Card>
                 </Space>
+                        
                 <div style={{
       marginTop: '-250px',
       marginLeft: '87%', // Optional: Add some right margin if needed

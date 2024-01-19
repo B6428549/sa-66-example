@@ -10,7 +10,8 @@ export interface RoomsInterface {
   Hotel: HotelsInterface
   RoomtypeID?: number;
   Roomtype: RoomtypesInterface
-  Price?: string;
-  Bed?: string;
+  Price?: number;
+  Bed?: number;
   Profile?: string;
+  Roomguest?: number;
 }

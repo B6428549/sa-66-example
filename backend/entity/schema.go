@@ -58,8 +58,9 @@ type Hotel struct {
 
 type Room struct {
 	gorm.Model
-	Bed string
-	Price string
+	Bed int
+	Price int
+	Roomguest int
 	Profile   string `gorm:"type:longtext"`
 
 	
@@ -91,6 +92,7 @@ type Bookhotel struct {
 	Name string
 	Phone string
 	Email string
+	Price int
 
 
 	// UserID *uint

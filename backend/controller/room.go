@@ -51,6 +51,7 @@ func CreateRoom(c *gin.Context) {
 		Bed:       room.Bed,
 		Price:     room.Price,
 		Profile:   room.Profile,
+		Roomguest: room.Roomguest,
 	}
 
 	// Save the room in the database

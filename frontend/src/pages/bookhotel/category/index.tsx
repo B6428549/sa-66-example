@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SearchRooms from '../../../components/searh';
 import "../../../App.css";
-import { Space, Card, Input, Button, Rate, Slider, Select, List, Image, Typography, Col, Row, InputNumber } from "antd";
+import { Space, Card, Input, Button, Rate, Slider, Select, List, Image, Typography, Col, Row, InputNumber, Flex } from "antd";
 import { EnvironmentFilled } from "@ant-design/icons";
 import { GetHotels, GetHoteltypes } from "../../../services/https";
 import { HotelsInterface } from "../../../interfaces/IHotel";
@@ -150,9 +150,19 @@ function Category() {
     
   };
 
+  const cardStyle: React.CSSProperties = {
+    width: 620,
+  };
+  
+  const imgStyle: React.CSSProperties = {
+    display: 'block',
+    width: 273,
+  };
+
   const inputRef = React.useRef(null);
   return (
     <div>
+    
      <SliderCarousel/>
       <div style={divStyle}>
         <form>
@@ -263,7 +273,7 @@ function Category() {
           grid={{ gutter: 16, column: 1 }}
           renderItem={(item) => (
             <List.Item>
-              <Card>
+              <Card hoverable >
                 <Space
                   direction="horizontal"
                   style={{

@@ -31,6 +31,8 @@ func CreateBookhotel(c *gin.Context) {
 		return
 	}
 
+	
+
 	// สร้าง User
 	p := entity.Bookhotel{
 		Room: Room,
@@ -38,6 +40,7 @@ func CreateBookhotel(c *gin.Context) {
 		Name: bookhotel.Name, // ตั้งค่าฟิลด์ Name
 		Phone: bookhotel.Phone,
 		Email: bookhotel.Email,
+		Price: Room.Price,
 		DateIn: bookhotel.DateIn,
 		DateOut: bookhotel.DateOut,
 	}

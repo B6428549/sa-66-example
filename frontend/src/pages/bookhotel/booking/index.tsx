@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Avatar, Button, Card, Col, DatePicker, Form, Input, List, Row, Space, TimePicker, Typography,message,} from "antd";
+import { Avatar, Button, Card, Col, DatePicker, Divider, Form, Input, List, Rate, Row, Space, TimePicker, Typography,message,Image, InputNumber } from "antd";
 import { CreateBookhotel, GetBookhotelById, GetHotelById, GetRoomById, GetRooms, GetRoomtypes } from "../../../services/https";
 import { RoomsInterface } from "../../../interfaces/IRoom";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { RoomtypesInterface } from "../../../interfaces/IRoomtype";
 import { BookHotelsInterface } from "../../../interfaces/IBookhotel";
 import { HotelsInterface } from "../../../interfaces/IHotel";
+import { EnvironmentFilled } from "@ant-design/icons";
+import form from "antd/es/form";
+import moment from 'moment';
 
 const { Text } = Typography;
 
@@ -15,6 +18,11 @@ function BookingHotel() {
   const [hotel, setHotels] = useState<HotelsInterface[]>([]);
   const navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
+  const [numberOfDays, setNumberOfDays] = useState(0);
+
+
+
+
   // Get room ID from URL parameters
   let { id2 } = useParams();  
   let { id } = useParams();
@@ -37,8 +45,12 @@ function BookingHotel() {
       if (res) {
         if (Array.isArray(res)) {
           setRooms(res);
+          // Set the selected room's price
+    
         } else {
           setRooms([res]);
+          // Set the selected room's price
+
         }
       }
     } catch (error) {
@@ -84,8 +96,20 @@ function BookingHotel() {
     };
   });
 
+  const data = hotel.map((hotel) => ({
+    title: hotel.Name,
+    description: hotel.Description,
+    profile: hotel.Profile,
+    price: hotel.Price,
+    location: hotel.Location,
+    hotelclass: hotel.Hotelclass,
+    id: hotel.ID,
+    type: hotel.Hoteltype,
+    // Add other properties as needed
+  }));
   
   const onFinish = async (values: BookHotelsInterface) => {
+  
     // ในกรณีนี้คุณต้องรอให้ getRoomById เสร็จก่อนที่จะทำ onFinish
     await getRoomById(); // นำไปใช้ที่จำเป็นต่อไป
     console.log(id2);
@@ -94,6 +118,7 @@ function BookingHotel() {
       // ให้ค่า RoomID เป็น ID ของห้องแรกที่ได้จาก getRoomById
       values.RoomID = rooms[0].ID; // หรือเลือกห้องที่ต้องการได้ตามต้องการ
       values.HotelID = hotel[0].ID;
+      values.Price = rooms[0].Price;
       let res = await CreateBookhotel(values);
       if (res.status) {
         messageApi.open({
@@ -119,32 +144,146 @@ function BookingHotel() {
   return (
     <div>
       {contextHolder}   
-     <Card>
-        <List
-          grid={{ gutter: 16, column: 1 }}
-          dataSource={roomData}
-          renderItem={(item) => (
-            <List.Item>
-              <Card title={item.title}>
-                <Space direction="vertical">
-                  <Avatar size={400} shape="square" src={item.profile} />
-                  <Text strong>{item.title}</Text>
-                  <p>{item.price}</p>
-                </Space>
-              </Card>
-            </List.Item>
-          )}
-        />
-      </Card>
+      <h2>Who Booking?</h2>
       <Form
           name="basic"
           layout="vertical"
           onFinish={onFinish}
           autoComplete="off"
         >
-          <Row gutter={[16, 16]}>
-          <Col xs={24} sm={24} md={24} lg={12} xl={12}>
-              <Col xs={24} sm={24} md={24} lg={24} xl={12}>
+      <Row>
+    <Col span={10} push={14}>
+    <div style={{marginLeft: "50px", marginTop: "0px"}}>
+          <Col xs={24} sm={24} md={24} lg={24} xl={20}>
+            
+     
+          <List
+          grid={{ gutter: 16, column: 1 }}
+          dataSource={data}
+          renderItem={(item) => (
+
+            <List.Item>
+              <Card>
+                <Space
+                  direction="vertical"
+                  style={{
+                    marginLeft: "50px",
+                    textAlign: "left",
+                  }}
+                >
+                  {/* Render the profile image using Avatar */}
+                 
+
+                  <div style={{
+                    textAlign: 'left',
+                    marginLeft: '10px',
+                    marginTop: '-160px',
+                  }}>
+                    <p style={{
+                      color: '#000000',
+                      fontFamily: 'Roboto, sans-serif',
+                      fontSize: '30px',
+                      fontStyle: 'normal',
+                      fontWeight: 700,
+                      lineHeight: 'large',
+                      marginBottom: '45px',
+                    }}>{item.title}</p>
+                    <div style={{
+                      textAlign: 'left',
+                      marginTop: '-25px',
+                    }}>
+                      <Rate disabled defaultValue={Number(item.hotelclass)} />
+                    </div>
+                  </div>
+
+                  <p style={{
+                    textAlign: 'left',
+                    marginTop: '-75px',
+                    marginLeft: '180px',
+                  }}>
+                    <EnvironmentFilled style={{
+                      fontSize: "25px",
+                      color: "#2A60EB",
+                      marginRight: '5px',
+                    }} />
+                    <span style={{
+                      fontSize: "20px",
+                      color: "#2A60EB",
+                      fontFamily: 'Roboto, sans-serif',
+                      fontStyle: 'normal',
+                      fontWeight: 700,
+                      lineHeight: 'large',
+                    }}>{item.location}</span>
+                  </p>
+                  <div style={{
+                    marginTop: '-80px', marginLeft: '-20px'
+                  }}>
+                   <Avatar size={400} shape="square" src={item.profile} />
+                  </div>
+                </Space>
+                </Card>
+              
+            </List.Item>
+          )}
+        />
+   
+     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+      <Card>
+      <List
+          grid={{ gutter: 16, column: 1 }}
+          dataSource={roomData}
+          renderItem={(item) => (
+            <List.Item>                                                                                         
+                 <h2>Payment Detail</h2>
+    <h3>Total amout to be paid <p>THB +{item.price}</p></h3>
+                  
+               
+    
+            </List.Item>
+          )}
+        />
+ 
+    </Card>
+        </Col>
+        </Col>
+        </div>
+        
+          <Row style={{marginLeft: "50px"
+}}>
+            <Col style={{ marginTop: "20px" }}>
+              <Form.Item>
+                <Space>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    style={{
+                      fontSize: '20px',
+                      backgroundColor: 'rgba(42, 96, 235, 0.30)',
+                      color: '#2A60EB',
+                      marginRight: '0px', // Adjust the spacing if needed
+                      transition: 'background-color 0.3s', // Add smooth transition for hover effect
+                      height: '55px', // Adjust the height as needed
+                      width: '510px',
+                      padding: '0 20px', // Adjust the padding as needed
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "center", // Adjust as needed
+                      alignItems: "center",
+                    }}
+                  >
+                    <h3>Continue</h3>
+                  </Button>
+                </Space>
+              </Form.Item>
+            </Col>
+    
+      
+          </Row>
+    </Col>
+    <Col span={14} pull={10}>
+    <Row gutter={[16, 16]}>
+          <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+              <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                 <Form.Item
                   label="Name"
                   name="Name"
@@ -173,47 +312,60 @@ function BookingHotel() {
             <Input />
           </Form.Item>
 
+          <div style={{display: "flex",
+    flexDirection: "row",
+}}>
+<Form.Item label="Check-In" name="DateIn" rules={[{ required: true, message: 'Please input Check-In date!' }]}>
+  <DatePicker
+    name="DateIn"
+    format={dateFormat}
 
-          <Form.Item label="วันนัดหมาย"  name="DateIn">
-                  <DatePicker
-                    name="DateIn"
-                    // Pass the formatted time string from Go
-                    format={dateFormat}
-                  />
-                </Form.Item>
-                <Form.Item  name="DateOut">
-                  <DatePicker
-                    name="DateOut"
-                    style={{ marginLeft: "10px" }}
-                    format={dateFormat}
-                    //defaultValue={moment()} // Set the default time to the current time
-                  />
-                </Form.Item>
-             
-              
-      
-           
+  />
+</Form.Item>
 
-            </Col>
-          </Row>
-          <Row justify="end">
-            <Col style={{ marginTop: "40px" }}>
-              <Form.Item>
-                <Space>
-                  <Button htmlType="button" style={{ marginRight: "10px" }}>
-                    ยกเลิก
-                  </Button>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                  >
-                    ยืนยัน
-                  </Button>
+<Form.Item label="Check-Out" name="DateOut" rules={[{ required: true, message: 'Please input Check-Out date!' }]}>
+  <DatePicker
+    name="DateOut"
+    style={{ marginLeft: "10px" }}
+    format={dateFormat}
+
+  />
+</Form.Item>
+
+
+
+          </div>
+
+
+       
+        
+        <List
+          grid={{ gutter: 16, column: 1 }}
+          dataSource={roomData}
+          renderItem={(item) => (
+            <List.Item>
+              <Card >
+                <Space direction="horizontal">
+                  <Avatar size={400} shape="square" src={item.profile} />
+                  <Text strong>{item.title}</Text>
+                  <p>{item.price}</p>
+                  <p>Number of days: {numberOfDays}</p>
                 </Space>
-              </Form.Item>
+              </Card>
+            </List.Item>
+          )}
+        />
             </Col>
           </Row>
-        </Form>
+    </Col>
+  </Row>
+  </Form>
+          
+          
+         
+       
+   
+       
     </div>
   );
 }

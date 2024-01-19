@@ -30,63 +30,63 @@ func SetupDatabase() {
 
 	db = database
 
-	// Gender Data
-	male := Gender{
-		Name: "ชาย",
-	}
-	db.Model(&Gender{}).Create(&male)
+	// // Gender Data
+	// male := Gender{
+	// 	Name: "ชาย",
+	// }
+	// db.Model(&Gender{}).Create(&male)
 
-	female := Gender{
-		Name: "หญิง",
-	}
-	db.Model(&Gender{}).Create(&female)
+	// female := Gender{
+	// 	Name: "หญิง",
+	// }
+	// db.Model(&Gender{}).Create(&female)
 		
-	hotel := Hoteltype{
-		Name: "Hotel",
-	}
-	db.Model(&Hoteltype{}).Create(&hotel)
-	resort := Hoteltype{
-		Name: "Resort",
-	}
-	db.Model(&Hoteltype{}).Create(&resort)
-	villa := Hoteltype{
-		Name: "Villa",
-	}
-	db.Model(&Hoteltype{}).Create(&villa)
-	apartment := Hoteltype{
-		Name: "Apartment",
-	}
-	db.Model(&Hoteltype{}).Create(&apartment)
-	tent := Hoteltype{
-		Name: "Tent",
-	}
-	db.Model(&Hoteltype{}).Create(&tent)
-	//Gender Data
+	// hotel := Hoteltype{
+	// 	Name: "Hotel",
+	// }
+	// db.Model(&Hoteltype{}).Create(&hotel)
+	// resort := Hoteltype{
+	// 	Name: "Resort",
+	// }
+	// db.Model(&Hoteltype{}).Create(&resort)
+	// villa := Hoteltype{
+	// 	Name: "Villa",
+	// }
+	// db.Model(&Hoteltype{}).Create(&villa)
+	// apartment := Hoteltype{
+	// 	Name: "Apartment",
+	// }
+	// db.Model(&Hoteltype{}).Create(&apartment)
+	// tent := Hoteltype{
+	// 	Name: "Tent",
+	// }
+	// db.Model(&Hoteltype{}).Create(&tent)
+	// //Gender Data
 	
-	// ------------------------------
-	standard := Roomtype{
-		Name: "Standard",
-	}
-	db.Model(&Roomtype{}).Create(&standard)
-	superior := Roomtype{
-		Name: "Superior ",
-	}
-	db.Model(&Roomtype{}).Create(&superior)
-	deluxe := Roomtype{
-		Name: "Deluxe",
-	}
-	db.Model(&Roomtype{}).Create(&deluxe)
-	suite := Roomtype{
-		Name: "Suite",
-	}
-	db.Model(&Roomtype{}).Create(&suite)	
-	tent2 := Roomtype{
-		Name: "Tent 2 Adults",
-	}
-	db.Model(&Roomtype{}).Create(&tent2)	
-	tent4 := Roomtype{
-		Name: "Tent 4 Adults",
-	}
-	db.Model(&Roomtype{}).Create(&tent4)	
-	//------------------------------
+	// // ------------------------------
+	// standard := Roomtype{
+	// 	Name: "Standard",
+	// }
+	// db.Model(&Roomtype{}).Create(&standard)
+	// superior := Roomtype{
+	// 	Name: "Superior ",
+	// }
+	// db.Model(&Roomtype{}).Create(&superior)
+	// deluxe := Roomtype{
+	// 	Name: "Deluxe",
+	// }
+	// db.Model(&Roomtype{}).Create(&deluxe)
+	// suite := Roomtype{
+	// 	Name: "Suite",
+	// }
+	// db.Model(&Roomtype{}).Create(&suite)	
+	// tent2 := Roomtype{
+	// 	Name: "Tent 2 Adults",
+	// }
+	// db.Model(&Roomtype{}).Create(&tent2)	
+	// tent4 := Roomtype{
+	// 	Name: "Tent 4 Adults",
+	// }
+	// db.Model(&Roomtype{}).Create(&tent4)	
+	// //------------------------------
 }

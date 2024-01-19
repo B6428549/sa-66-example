@@ -13,6 +13,7 @@ import {
   Select,
   Steps,
   theme,
+  InputNumber,
 } from "antd";
 import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
 import { RoomsInterface } from "../../../interfaces/IRoom";
@@ -180,23 +181,30 @@ function Addroom() {
             name="Price"
             rules={[{ required: true, message: 'Please input Field 1!' }]}
           >
-            <Input />
+            <InputNumber />
           </Form.Item>
          
-          {/* <Form.Item
-            label="ระดับดาว"
-            name="Hotelclass"
+          <Form.Item
+            label="เตียง"
+            name="Bed"
             rules={[{ required: true, message: 'Please input Field 1!' }]}
           >
+            <InputNumber/>
+          </Form.Item>
 
-            <Rate />
-          </Form.Item> */}
+          <Form.Item
+            label="Guest"
+            name="Roomguest"
+            rules={[{ required: true, message: 'Please input Field 1!' }]}
+          >
+            <InputNumber/>
+          </Form.Item>
             <Form.Item
                 label="รูป"
                 name="Profile"
                 valuePropName="fileList"
                 getValueFromEvent={normFile}
-              
+                rules={[{ required: true, message: 'Please input Field 1!' }]}
               >
                 <Upload maxCount={1} multiple={false} listType="picture-card">
                   <div>
