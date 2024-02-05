@@ -113,9 +113,7 @@ function Customers() {
     <>
       {contextHolder}
       <Row>
-        <Col span={12}>
-          <h2>จัดการข้อมูลที่พัก</h2>
-        </Col>
+          <h2>Manage Hotel</h2>
         <Col span={12} style={{ textAlign: "end", alignSelf: "center" }}>
           <Space>
             <Link to="/hotel/create">

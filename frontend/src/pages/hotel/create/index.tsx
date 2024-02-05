@@ -22,11 +22,26 @@ import { CreateHotel, GetHoteltypes, GetRoomtypes } from "../../../services/http
 import { useNavigate } from "react-router-dom";
 import { RoomtypesInterface } from "../../../interfaces/IRoomtype";
 import { HotelsInterface } from "../../../interfaces/IHotel";
-
+import type { SelectProps } from 'antd';
 const { Option } = Select;
 
 function HotelCreate() {
   
+  const options: SelectProps['options'] = [
+    { label: 'ห้องอาหาร (Restaurants)', value: 'restaurants' },
+    { label: 'เลานจ์ (Lounge)', value: 'lounge' },
+    { label: 'สระว่ายน้ำ (Swimming Pool)', value: 'swimmingpool' },
+    { label: 'ห้องสันทนาการ (Game Room)', value: 'game-room' },
+    { label: 'ฟิตเน็ต (Fitness Center), คอร์ทเทนนิส (Tennis Courts)', value: 'fitness' },
+    { label: 'สปาและร้านทำผม (Spa, Sauna, Salon)', value: 'spasalon' },
+    { label: 'บิสสิเน็ต เซ็นเตอร์ (Business Center)', value: 'business-center' },
+    { label: 'อินเตอร์เน็ต (Wifi)', value: 'wifi' },
+    { label: 'รูมเซอร์วิส (Room Service)', value: 'room-service' },
+    { label: 'บริการซักรีดและซักแห้ง (Laundry and Dry Cleaning)', value: 'laundry-dry-cleaning' },
+    { label: 'บริการรับเลี้ยงเด็ก', value: 'childcare' },
+    { label: 'ผับ (Pub)', value: 'pub' },
+  ];
+
   const [current, setCurrent] = useState(0);
   const [hoteltypes, setHoteltypes] = useState<HoteltypesInterface[]>([]);
   const [roomtypes, setRoomtypes] = useState<RoomtypesInterface[]>([]);
@@ -85,7 +100,9 @@ function HotelCreate() {
     setProfile(e?.fileList[0])
     return e?.fileList;
   };
-
+  const handleChange = (value: string[]) => {
+    console.log(`selected ${value}`);
+  };
   
  
   return (
@@ -166,7 +183,22 @@ function HotelCreate() {
           >
             <InputNumber />
           </Form.Item>
-
+         < Form.Item
+               label="Service"
+               name="Service"
+               rules={[{ required: true, message: 'กรุณาระบุคำบรรยาย !' }]}
+             >
+              
+              
+    <Select
+      mode="multiple"
+      allowClear
+      style={{ width: '100%' }}
+      placeholder="Please select"
+      onChange={handleChange}
+      options={options}
+    />
+    </Form.Item>
             <Form.Item
                 label="รูป"
                 name="Profile"

@@ -34,6 +34,7 @@ func CreateHotel(c *gin.Context) {
 		Guest: hotel.Guest,
 		Description: hotel.Description,
 		Hotelclass: hotel.Hotelclass,
+		Service: hotel.Service,
 	}
 
 	// บันทึก

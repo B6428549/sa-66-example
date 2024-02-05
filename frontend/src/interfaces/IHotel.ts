@@ -13,6 +13,7 @@ export interface HotelsInterface {
   Profile?: string;
   Guest?: number;
   Price?: number;
+  Service?: string[];
   
  
 }
