@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Space, Avatar, List, Card, Typography, Button, Rate, Image, Divider } from "antd";
+import { Space, Avatar, List, Card, Typography, Button, Rate, Image, Divider, Col } from "antd";
 import { GetHotelById, GetRoomtypes, GetRooms } from "../../../services/https";
 import { HotelsInterface } from "../../../interfaces/IHotel";
 import { RoomsInterface } from "../../../interfaces/IRoom";
@@ -133,7 +133,7 @@ function Detail() {
                   <div style={{
                     marginTop: '-60px',
                   }}>
-                    <Image
+                    <img
                       width={450}
                       height={450}
                       src={item.profile}
@@ -174,7 +174,7 @@ function Detail() {
                     <EnvironmentFilled style={{
                       fontSize: "25px",
                       color: "#2A60EB",
-                      marginRight: '5px',
+                      marginRight: '1px',
                     }} />
                     <span style={{
                       fontSize: "20px",
@@ -185,22 +185,30 @@ function Detail() {
                       lineHeight: 'large',
                     }}>{item.location}</span>
                   </p>
-                  <Space direction="vertical"
-                  style={{
-                    marginLeft: "-280px",
-                    textAlign: "left",
-                  }}
-                >
+                  
+                  </Space>
+                  <Col span={15} push={8}>
+                  <Divider style={{marginTop: "-200px"}}
+                
+              />
+    <span style={{ fontSize: '18px', color: '#888',
+      
+    }}>{item.description}</span>
+    </Col>
+                  <h3 style={{marginTop: "100px"}}>Hotel amitilie</h3>
                   <Divider style={{
-                    width: "800px",
-                    marginLeft: "-20px",
-                    textAlign: "left",
-                    marginTop: '100px',
+               
                   }}/>
 
-<p style={{ display: 'flex', flexDirection: 'row' }}>
+
+<p style={{
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap", // Allow items to wrap to the next line
+  }}>
                   {item.service?.map((service, index) => (
                     <React.Fragment key={index}>
+                      
                       <div style={{
    display: "flex",
    flexDirection: "row",
@@ -208,6 +216,7 @@ function Detail() {
    alignItems: "center",
    marginBottom: '10px', // Adjust spacing between sections
 }}>
+  
                          {service === 'fitness' && (
                         <>
                      
@@ -290,12 +299,7 @@ function Detail() {
                           <span style={{ fontSize: '18px', color: '#888', marginRight: '8px' }}>Swimming Pool</span>
                         </>
                       )}
-                      {service === 'swimmingpool' && (
-                        <>
-                          <img src={poolIcon} alt="Swimming Pool" style={{ width: '18px', height: '18px', marginRight: '8px' }} />
-                          <span style={{ fontSize: '18px', color: '#888', marginRight: '8px' }}>Swimming Pool</span>
-                        </>
-                      )}
+                    
                       </div>
                       {service !== 'wifi' && service !== 'swimmingpool' && service !== 'restaurants' &&
                       service !== 'game-room' && service !== 'lounge' && 
@@ -310,13 +314,14 @@ function Detail() {
                     </React.Fragment>
                   ))}
                 </p>
+                
 
 
 
 
 
-      </Space>
-                </Space>
+    
+            
               
             </List.Item>
           )}

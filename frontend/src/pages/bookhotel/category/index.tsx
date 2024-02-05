@@ -1,21 +1,29 @@
 import React, { useState, useEffect } from "react";
 import SearchRooms from '../../../components/searh';
 import "../../../App.css";
-import { Space, Card, Input, Button, Rate, Slider, Select, List, Image, Typography, Col, Row, InputNumber, Flex } from "antd";
-import { EnvironmentFilled } from "@ant-design/icons";
+import { Space, Card, Input, Button, Rate, Slider, Select, List, Image, Typography, Col, Row, InputNumber, Flex, Divider } from "antd";
+
 import { GetHotels, GetHoteltypes } from "../../../services/https";
 import { HotelsInterface } from "../../../interfaces/IHotel";
 import { HoteltypesInterface } from "../../../interfaces/IHoteltype";
 import { Link } from "react-router-dom";
 import bg from "../../../assets/bg.png"
 import SliderCarousel from "../../../components/sliderpage";
-import pic1 from '../../../assets/showcase1.jpg';
-import pic2 from '../../../assets/showcase2.jpg';
+
 import pic3 from '../../../assets/showcase3.jpg';
-import pic4 from '../../../assets/showcase4.jpg';
-import pic5 from '../../../assets/showcase5.jpg';
-import pic6 from '../../../assets/showcase6.jpg';
-import pic7 from '../../../assets/showcase7.jpg';
+
+import { EnvironmentFilled,WifiOutlined } from "@ant-design/icons";
+import poolIcon from "../../../assets/swimming.png"; // Import your swimming pool icon
+import serviceIcon from "../../../assets/service.png"; // Import your swimming pool icon
+import meetIcon from "../../../assets/meeting-room.png"; // Import your swimming pool icon
+import laundryIcon from "../../../assets/laundry-service.png"; // Import your swimming pool icon
+import fitnessIcon from "../../../assets/dumbbell.png"; // Import your swimming pool icon
+import gameIcon from "../../../assets/console.png"; // Import your swimming pool icon
+import salonIcon from "../../../assets/beauty-salon.png"; // Import your swimming pool icon
+import barIcon from "../../../assets/bar.png"; // Import your swimming pool icon
+import babyIcon from "../../../assets/baby-feeder.png"; // Import your swimming pool icon
+import resIcon from "../../../assets/restaurant.png"; // Import your swimming pool icon
+import loungeIcon from "../../../assets/laundry-service.png"; // Import your swimming pool icon
 const { Option } = Select;
 const { TextArea } = Input;
 const { Text } = Typography;
@@ -129,7 +137,8 @@ function Category() {
     location: hotel.Location,
     hotelclass: hotel.Hotelclass,
     id: hotel.ID,
-    type: hotel.Hoteltype
+    type: hotel.Hoteltype,
+    service: hotel.Service?.slice(0, 3)
   }));
 
   const divStyle: React.CSSProperties = {
@@ -261,7 +270,7 @@ function Category() {
                 </Option>
               ))}
             </Select>
-
+            
           </Card>
 
         </Col>
@@ -318,7 +327,7 @@ function Category() {
                   </div>
                   <p style={{
                     textAlign: 'left',
-                    marginTop: '-70px',
+                    marginTop: '-10px',
                     marginLeft: '50px',
                   }}>
                     <EnvironmentFilled style={{
@@ -334,9 +343,131 @@ function Category() {
                       fontWeight: 700,
                       lineHeight: 'large',
                     }}>{item.location}</span>
+                    <Col span={24} >
+                    <div style={{marginLeft: "-190px", width: "450px"}}>
+                    <Divider />
+                    <p style={{
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap", // Allow items to wrap to the next line
+  }}>
+                  {item.service?.map((service, index) => (
+                    <React.Fragment key={index}>
+                      
+                      <div style={{
+   display: "flex",
+   flexDirection: "row",
+   justifyContent: "center", // Adjust as needed
+   alignItems: "center",
+   marginBottom: '10px', // Adjust spacing between sections
+}}>
+  
+                         {service === 'fitness' && (
+                        <>
+                     
+                        
+                          <img src={fitnessIcon} style={{ fontSize: '18px', height: '18px', marginRight: '8px' }} />
+                          <span style={{ fontSize: '18px', color: '#888', marginRight: '8px'}}>fitness</span>
+                        
+                        </>
+                      )}
+                        {service === 'room-service' && (
+                        <>
+                        
+                          <img src={serviceIcon} style={{ fontSize: '18px', height: '18px', marginRight: '8px' }} />
+                          <span style={{ fontSize: '18px', color: '#888', marginRight: '8px' }}>Room Service</span>
+                        </>
+                      )}
+                       {service === 'laundry-dry-cleaning' && (
+                        <>
+                          <img src={laundryIcon} style={{ fontSize: '18px', height: '18px', marginRight: '8px' }} />
+                          <span style={{ fontSize: '18px', color: '#888', marginRight: '8px' }}>Laundry and Dry Cleaning</span>
+                        </>
+                      )}
+                       {service === 'childcare' && (
+                        <>
+                          <img src={babyIcon} style={{ fontSize: '18px', height: '18px', marginRight: '8px' }} />
+                          <span style={{ fontSize: '18px', color: '#888', marginRight: '8px' }}>childcare</span>
+                        </>
+                      )}
+                      {service === 'pub' && (
+                        <>
+                          <img src={barIcon} style={{ fontSize: '18px', height: '18px', marginRight: '8px' }} />
+                          <span style={{ fontSize: '18px', color: '#888', marginRight: '8px' }}>pub</span>
+                        </>
+                      )}
+                       {service === 'spasalon' && (
+                        <>
+                          <img src={salonIcon} style={{ fontSize: '18px', height: '18px', marginRight: '8px' }} />
+                          <span style={{ fontSize: '18px', color: '#888', marginRight: '8px' }}>Spa and Salon</span>
+                        </>
+                      )}
+                       {service === 'business-center' && (
+                        <>
+                          <img src={meetIcon}style={{ fontSize: '18px', height: '18px', marginRight: '8px' }} />
+                          <span style={{ fontSize: '18px', color: '#888', marginRight: '8px' }}>Business Center</span>
+                        </>
+                      )}
+                       {service === 'wifi' && (
+                        <>
+                          <WifiOutlined style={{ fontSize: '18px', height: '18px', marginRight: '8px' }} />
+                          <span style={{ fontSize: '18px', color: '#888', marginRight: '8px' }}>wifi</span>
+                        </>
+                      )}
+                       {service === 'lounge' && (
+                        <>
+                          <img src={loungeIcon}  style={{ fontSize: '18px', height: '18px', marginRight: '8px' }} />
+                          <span style={{ fontSize: '18px', color: '#888', marginRight: '8px' }}>lounge</span>
+                        </>
+                      )}
+                       {service === 'game-room' && (
+                        <>
+                          <img src={gameIcon}  style={{ fontSize: '18px', height: '18px', marginRight: '8px' }} />
+                          <span style={{ fontSize: '18px', color: '#888', marginRight: '8px' }}>Game Room</span>
+                        </>
+                      )}
+                      {service === 'restaurants' && (
+                        <>
+                          <img src={resIcon} alt="Swimming Pool" style={{ fontSize: '18px', height: '18px', marginRight: '8px' }} />
+                          <span style={{ fontSize: '18px', color: '#888', marginRight: '8px' }}>restaurants</span>
+                        </>
+                      )}
+                      {service === 'swimmingpool' && (
+                        <>
+                          <img src={poolIcon} alt="Swimming Pool" style={{ width: '18px', height: '18px', marginRight: '8px' }} />
+                          <span style={{ fontSize: '18px', color: '#888', marginRight: '8px' }}>Swimming Pool</span>
+                        </>
+                      )}
+                      {service === 'park' && (
+                        <>
+                          <img src={poolIcon} alt="Swimming Pool" style={{ width: '18px', height: '18px', marginRight: '8px' }} />
+                          <span style={{ fontSize: '18px', color: '#888', marginRight: '8px' }}>Swimming Pool</span>
+                        </>
+                      )}
+                    
+                      </div>
+                      {service !== 'wifi' && service !== 'swimmingpool' && service !== 'restaurants' &&
+                      service !== 'game-room' && service !== 'lounge' && 
+                      service !== 'business-center' && service !== 'spasalon' && service !== 'pub' &&
+                      service !== 'laundry-dry-cleaning' && service !== 'room-service' && 
+                      service !== 'childcare' &&  service !== 'fitness' && (
+                        <span style={{ fontSize: '18px', color: '#888', marginRight: '8px' }}>
+                          {service}
+                        </span>
+                      )}
+                      {item.service && index !== (item.service.length - 1) && <span style={{ marginRight: '8px' }}></span>}
+                    </React.Fragment>
+                  ))}
+                </p>
+                    </div>
+                    </Col>
                   </p>
-                </Space>
+                 
+                 
+               
 
+                </Space>
+               
                 <div style={{
                   marginTop: '-250px',
                   marginLeft: '87%',
